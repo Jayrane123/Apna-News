@@ -6,7 +6,7 @@ export class NewItem extends Component {
     return (
       <div>
        <div className="card">
-  <img  src={ImageUrl?ImageUrl:"piyush.JPG"} className="card-img-top" alt="..."/>
+  <img  src={ImageUrl?ImageUrl:"news.jpg"} className="card-img-top" alt="..."/>
   <div className="card-body">
   <span className="position-absolute top-0  translate-middle badge rounded-pill bg-danger" style={{left:"90%",zIndex:"1"}}>{source }
   </span>
