@@ -18,7 +18,7 @@ export class News extends Component {
     super(props);
     this.state = {
       // articles : this.articles,
-      loading: true,
+      loading: false,
       articles: [],
       page: 1 ,
       totalResults:0
@@ -30,6 +30,7 @@ export class News extends Component {
   + string.slice(1)
   }
   async updatenews(){
+    this.props.setProgress(10);
     let url =
       `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12db0fc496164030b28cf078b9316e9d&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({loading:true})  
@@ -40,11 +41,12 @@ export class News extends Component {
       totalResults: parsedata.totalResults,
       loading:false 
     });
+    this.props.setProgress(100);
   }
   fetchMoreData = async () => {
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
-
+    
     this.setState({page : this.state.page + 1});
     let url =
       `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=12db0fc496164030b28cf078b9316e9d&page=${this.state.page}&pageSize=${this.props.pageSize}`; 
@@ -71,10 +73,11 @@ export class News extends Component {
   render() {
     return (
       <div className="container my-3">
+        
         <h2 className='text-center' style={{margin:'35px 0px'}}>
           <strong >APNI NEWS - Top {this.capitalized(this.props.category)} Headlines</strong>
         </h2>
-        {this.state.loading &&<Spinner />}
+        {this.state.articles.length!==this.state.totalResults?this.state.loading &&<Spinner />:null}
         <InfiniteScroll
             dataLength={this.state.articles.length}
             next={this.fetchMoreData}
